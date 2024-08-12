@@ -12,7 +12,7 @@ function WeatherApi() {
     setLoading(true);
     try {
       const { data, status } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=c8f21f86ece4d2370667123432f0e078&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=APIKEY&units=metric`
       );
       if (status === 200) {
         setList(data);
