@@ -1,0 +1,79 @@
+/* WeatherApi.css */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  label {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  p {
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .recent-search {
+    margin-top: 20px;
+  }
+  
+  .recent-search h6 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .recent-search button {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .weather-info {
+    margin-top: 20px;
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .weather-info h5 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  h3 {
+    text-align: center;
+    color: #007bff;
+  }
+  

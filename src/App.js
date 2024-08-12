@@ -1,11 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import MyFunc from "./myfunc";
+import WeatherApi from "./WeatherApi";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import CurrentLocation from "./currentLocation";
 
 function App() {
   return (
-    <>
-      <h1>Weather App</h1>
-    </>
+    <div>
+      <WeatherApi />
+      <CurrentLocation />
+    </div>
   );
 }
 

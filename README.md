@@ -1,70 +1,245 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+import axios from "axios";
+import React, { useRef, useState } from "react";
+import {
+  Form,
+  Button,
+  Card,
+  Spinner,
+  Alert,
+  ListGroup,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 
-### `npm start`
+function WeatherApi() {
+  const search = useRef();
+  const [list, setList] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [array, setArray] = useState([]);
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  const fetchApi = async (query) => {
+    setLoading(true);
+    try {
+      const { data, status } = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=c8f21f86ece4d2370667123432f0e078&units=metric`
+      );
+      if (status === 200) {
+        setList(data);
+      }
+    } catch (e) {
+      console.log(e);
+      setList({});
+    } finally {
+      setLoading(false);
+    }
+  };
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const userEntered = search.current.value.trim();
+    if (userEntered.length > 0) {
+      fetchApi(userEntered);
+      const suggestion = () => {
+        return [...array, userEntered];
+      };
+      setArray(suggestion);
+    } else {
+      alert("Please enter the city name correctly");
+    }
+  };
 
-### `npm test`
+  return (
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Card>
+            <Card.Body>
+              <Form>
+                <Form.Group className="mb-3" controlId="search">
+                  <Form.Label>
+                    Enter city name to get weather condition:
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    ref={search}
+                    placeholder="City Name"
+                  />
+                  <Button onClick={submitHandler}>search</Button>
+                </Form.Group>
+              </Form>
+            </Card.Body>
+          </Card>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+          {array.length > 0 && (
+            <Card className="mt-3">
+              <Card.Body>
+                <Card.Title>Recent Searches</Card.Title>
+                <ListGroup variant="flush">
+                  {array.map((each, idx) => (
+                    <ListGroup.Item key={idx}>{each}</ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          )}
 
-### `npm run build`
+          {loading ? (
+            <Spinner animation="border" variant="primary" className="mt-3" />
+          ) : Object.keys(list).length === 0 ? (
+            <Alert variant="danger" className="mt-3">
+              Data not found
+            </Alert>
+          ) : (
+            <Card className="mt-3">
+              <Card.Body>
+                <Card.Title>Weather Details</Card.Title>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>City: {list.name}</ListGroup.Item>
+                  <ListGroup.Item>ID: {list.id}</ListGroup.Item>
+                  <ListGroup.Item>Country: {list.sys.country}</ListGroup.Item>
+                  <ListGroup.Item>
+                    Sunrise:{" "}
+                    {new Date(list.sys.sunrise * 1000).toLocaleTimeString()}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Sunset:{" "}
+                    {new Date(list.sys.sunset * 1000).toLocaleTimeString()}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Weather: {list.weather[0].main}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Description: {list.weather[0].description}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Temperature: {list.main.temp}°C
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Min Temperature: {list.main.temp_min}°C
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Max Temperature: {list.main.temp_max}°C
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Pressure: {list.main.pressure} hPa
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Humidity: {list.main.humidity}%
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Wind Speed: {list.wind.speed} m/s
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Wind Direction: {list.wind.deg}°
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          )}
+        </Col>
+      </Row>
+    </Container>
+  );
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export default WeatherApi;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+// import axios from "axios";
 
-## Learn More
+// import React, { useRef, useState } from "react";
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+// function WeatherApi() {
+//   const search = useRef();
+//   const [list, setList] = useState({});
+//   const [loading, setLoading] = useState(false);
+//   const [array, setArray] = useState([]);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+//   const fetchApi = async (query) => {
+//     setLoading(true);
+//     try {
+//       const { data, status } = await axios.get(
+//         `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=c8f21f86ece4d2370667123432f0e078&units=metric`
+//       );
+//       if (status === 200) {
+//         setList(data);
+//       }
+//     } catch (e) {
+//       console.log(e);
+//       setList({});
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-### Code Splitting
+//   const submitHandler = (e) => {
+//     e.preventDefault();
+//     const userEntered = search.current.value.trim();
+//     if (userEntered.length > 0) {
+//       fetchApi(userEntered);
+//       const suggestion = () => {
+//         return [...array, userEntered];
+//       };
+//       setArray(suggestion);
+//     } else {
+//       alert("please enter city name correctly");
+//     }
+//   };
+//   console.log(array);
+//   return (
+//     <>
+//       <form onSubmit={submitHandler}>
+//         <label htmlFor="search">
+//           Enter city name to get weather condition:
+//         </label>
+//         <input type="text" id="search" ref={search} />
+//         <button type="submit">Submit</button>
+//       </form>
+//       <p>recent search</p>
+//       {array.length > 0 &&
+//         array.map((each, idx) => (
+//           <div key={idx}>
+//             <h6>{each}</h6>
+//             <button>delete</button>
+//           </div>
+//         ))}
+//       {loading ? (
+//         <h3>Loading...</h3>
+//       ) : Object.keys(list).length === 0 ? (
+//         <h3>Data not found</h3>
+//       ) : (
+//         <div>
+//           <h5>City: {list.name}</h5>
+//           <h5>ID: {list.id}</h5>
+//           <h5>Country: {list.sys.country}</h5>
+//           <h5>
+//             Sunrise: {new Date(list.sys.sunrise * 1000).toLocaleTimeString()}
+//           </h5>
+//           <h5>
+//             Sunset: {new Date(list.sys.sunset * 1000).toLocaleTimeString()}
+//           </h5>
+//           <h5>Weather: {list.weather[0].main}</h5>
+//           <h5>Description: {list.weather[0].description}</h5>
+//           <h5>Temperature: {list.main.temp}°C</h5>
+//           <h5>Min Temperature: {list.main.temp_min}°C</h5>
+//           <h5>Max Temperature: {list.main.temp_max}°C</h5>
+//           <h5>Pressure: {list.main.pressure} hPa</h5>
+//           <h5>Humidity: {list.main.humidity}%</h5>
+//           <h5>Wind Speed: {list.wind.speed} m/s</h5>
+//           <h5>Wind Direction: {list.wind.deg}°</h5>
+//         </div>
+//       )}
+//     </>
+//   );
+// }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+// export default WeatherApi;
