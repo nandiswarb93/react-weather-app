@@ -1,6 +1,6 @@
-/* CurrentLocation.css */
+/* CurrentLocation.css
 
-.container {
+.weather-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,9 +13,10 @@
     margin: 0 auto;
     text-align: center;
     font-family: 'Arial', sans-serif;
+    animation: fadeIn 1s ease-in-out;
   }
   
-  .button {
+  .weather-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -24,54 +25,191 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    animation: bounce 1s infinite;
   }
   
-  .button:hover {
+  .weather-button:hover {
     background-color: #0056b3;
   }
   
-  .station,
-  .name {
-    margin: 10px 0;
-    color: #333;
+  .weather-info {
+    margin-top: 20px;
+    animation: slideUp 0.5s ease-in-out;
   }
   
-  .station {
+  .weather-station,
+  .weather-name,
+  .weather-wind,
+  .weather-humidity,
+  .weather-temperature {
+    margin: 10px 0;
+    color: #333;
+    opacity: 0;
+    animation: fadeInUp 0.8s forwards;
+  }
+  
+  .weather-station {
     font-size: 18px;
     font-weight: 600;
   }
   
-  .name {
-    font-size: 16px;
-  }
-  
-  h3.name {
+  .weather-name {
     font-size: 24px;
     font-weight: 700;
     color: #007bff;
   }
   
-  h4 {
-    margin: 8px 0;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
   
   @media (max-width: 480px) {
-    .container {
+    .weather-container {
       padding: 15px;
     }
   
-    .button {
+    .weather-button {
       width: 100%;
       font-size: 14px;
     }
   
-    .station,
-    .name {
+    .weather-station,
+    .weather-name {
       font-size: 14px;
     }
   
-    h3.name {
+    .weather-name {
       font-size: 20px;
     }
   }
-  
+   */
+
+
+
+
+
+   /* CurrentLocation.css */
+
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.weather-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.weather-button:hover {
+  background-color: #0056b3;
+}
+
+.weather-info {
+  margin-top: 20px;
+}
+
+.weather-station, .weather-name, .weather-wind, .weather-humidity, .weather-temperature {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.weather-station {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.weather-name {
+  font-size: 24px;
+  color: #555;
+}
+
+.weather-wind, .weather-humidity, .weather-temperature {
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .weather-container {
+    padding: 15px;
+  }
+
+  .weather-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .weather-station, .weather-name, .weather-wind, .weather-humidity, .weather-temperature {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-container {
+    padding: 10px;
+  }
+
+  .weather-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .weather-station, .weather-name, .weather-wind, .weather-humidity, .weather-temperature {
+    font-size: 14px;
+  }
+}

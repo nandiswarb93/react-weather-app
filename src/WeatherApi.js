@@ -19,7 +19,7 @@ function WeatherApi() {
       }
     } catch (e) {
       console.log(e);
-      setList({});
+      setList([]);
     } finally {
       setLoading(false);
     }
@@ -65,44 +65,51 @@ function WeatherApi() {
           Submit
         </button>
       </form>
-      <p className="recent-search-title">Recent search</p>
+
       <div className="recent-search">
-        {array.length > 0 &&
-          array.map((each, idx) => (
-            <div key={idx} className="recent-item">
-              <h6
-                className="recent-city"
-                onClick={() => {
-                  searchHandler(each);
-                }}
-              >
-                {each}
-              </h6>
-              <button
-                className="delete-button"
-                onClick={() => {
-                  deleteHandler(each);
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
+        {Object.keys(list).length > 0 && (
+          <>
+            <p className="recent-search-title">Recent search</p>
+            {array.length > 0 &&
+              array.map((each, idx) => (
+                <div key={idx} className="recent-item">
+                  <h6
+                    className="recent-city"
+                    onClick={() => {
+                      searchHandler(each);
+                    }}
+                  >
+                    {each}
+                  </h6>
+                  <button
+                    className="delete-button"
+                    onClick={() => {
+                      deleteHandler(each);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+          </>
+        )}
       </div>
       {loading ? (
         <h3 className="loading-text">Loading...</h3>
-      ) : Object.keys(list).length === 0 ? (
-        <h3 className="error-text">Data not found</h3>
       ) : (
-        <div className="weather-info">
-          <h5 className="weather-detail">City: {list.name}</h5>
-          <h5 className="weather-detail">ID: {list.id}</h5>
-          <h5 className="weather-detail">Country: {list.sys.country}</h5>
-          <h5 className="weather-detail">Weather: {list.weather[0].main}</h5>
-          <h5 className="weather-detail">Temperature: {list.main.temp}°C</h5>
-          <h5 className="weather-detail">Pressure: {list.main.pressure} hPa</h5>
-          <h5 className="weather-detail">Humidity: {list.main.humidity}%</h5>
-        </div>
+        Object.keys(list).length > 0 && (
+          <div className="weather-info">
+            <h5 className="weather-detail">City: {list.name}</h5>
+            <h5 className="weather-detail">ID: {list.id}</h5>
+            <h5 className="weather-detail">Country: {list.sys.country}</h5>
+            <h5 className="weather-detail">Weather: {list.weather[0].main}</h5>
+            <h5 className="weather-detail">Temperature: {list.main.temp}°C</h5>
+            <h5 className="weather-detail">
+              Pressure: {list.main.pressure} hPa
+            </h5>
+            <h5 className="weather-detail">Humidity: {list.main.humidity}%</h5>
+          </div>
+        )
       )}
     </>
   );
